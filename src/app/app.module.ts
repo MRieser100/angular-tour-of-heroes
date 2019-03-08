@@ -1,11 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { AppRoutingModule } from './app-routing.module';
 
 // @NgModule decorator contains vital app Metadata
 @NgModule({
@@ -14,11 +21,20 @@ import { MessagesComponent } from './messages/messages.component';
     AppComponent,
     HeroesComponent,
     HeroDetailComponent,
-    MessagesComponent
+    MessagesComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule, 
-    FormsModule
+    FormsModule, 
+    AppRoutingModule,
+    HttpClientModule,
+    // The HttpClientInMemoryWebApiModule intercepts HTTP requests
+    // and returns simulated server responses.
+    // Remove it when a real server is ready to receive requests
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false } // InMemoryDataService class primes the in-memory db
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]
